@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="static/jquery-3.3.1.js"></script>
+    <title>keyWord search</title>
+</head>
+<body>
+
+<script>
+    $(document).ready(function() {
+        $("#btn1").click(function () {
+            $.get("/mystring", function (data, status) {
+                $(".searching").append(data);
+            });
+        });
+    })
+</script>
+
+<!--<form method="post" action="/mockservice"  method = "post">-->
+<div align="center">
+<h2>搜索公司信息</h2>
+    {% if message %} {{message}} {% endif %}
+    <form method="POST">
+        {{ keyForm.hidden_tag() }}
+        关键字:{{keyForm.key_word()}}
+        {{keyForm.submit(id='btn1')}}
+    </form>
+
+</div>
+
+{% if not key_word %}
+<div align="center" class="searching">
+</div>
+{% endif %}
+
+<div align="center">
+    {% if key_word %}
+
+    <h2> 搜索结果 </h2>
+    <form method="POST">
+        {{ companyForm.hidden_tag() }}
+        公司全名:{{companyForm.company()}}
+        {{companyForm.submit(id='btn2')}}
+    </form>
+    <br>
+    {% for key,item in names.items()%}
+    <br> {{key}}
+
+    {% endfor %}
+    {% endif %}
+</div>
+
+</body>
+</html>
